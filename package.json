@@ -1,0 +1,21 @@
+{
+  "name": "anonymous-innovation-evaluation",
+  "version": "1.0.0",
+  "description": "Privacy-Protected Innovation Evaluation Platform Based on Homomorphic Encryption",
+  "scripts": {
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
+    "compile": "hardhat compile"
+  },
+  "keywords": ["fhe", "blockchain", "zama", "evaluation"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@fhevm/hardhat-plugin": "^0.1.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0",
+    "dotenv": "^16.4.0"
+  },
+  "dependencies": {
+    "@fhevm/solidity": "latest"
+  }
+}
