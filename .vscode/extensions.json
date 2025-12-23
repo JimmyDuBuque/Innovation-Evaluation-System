@@ -1,1 +1,8 @@
-
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "JuanBlanco.solidity",
+    "ms-vscode.makefile-tools"
+  ]
+}
