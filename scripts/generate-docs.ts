@@ -51,6 +51,66 @@ interface ExampleConfig {
 
 const EXAMPLES_CONFIG: ExampleConfig[] = [
   {
+    name: 'fhe-counter',
+    title: 'FHE Counter',
+    description: 'Simple counter demonstrating basic FHEVM operations',
+    category: 'Basic Examples',
+    contractPath: 'contracts/FHECounter.sol',
+    testPath: 'test/FHECounter.ts',
+    concepts: [
+      'Encrypted state variables (euint32)',
+      'Basic arithmetic operations (add, sub)',
+      'Permission management with FHE.allowThis() and FHE.allow()',
+      'Input encryption with proofs',
+      'Event emissions',
+    ],
+  },
+  {
+    name: 'fhe-arithmetic',
+    title: 'FHE Arithmetic Operations',
+    description: 'Comprehensive demonstration of arithmetic operations on encrypted values',
+    category: 'Basic Examples',
+    contractPath: 'contracts/FHEArithmetic.sol',
+    testPath: 'test/FHEArithmetic.ts',
+    concepts: [
+      'Addition (FHE.add)',
+      'Subtraction (FHE.sub)',
+      'Multiplication (FHE.mul)',
+      'Min/Max operations',
+      'Working with different encrypted types (euint8, euint32)',
+    ],
+  },
+  {
+    name: 'access-control',
+    title: 'Access Control Patterns',
+    description: 'Access control and permission management in FHEVM',
+    category: 'Intermediate Examples',
+    contractPath: 'contracts/AccessControlExample.sol',
+    testPath: 'test/AccessControlExample.ts',
+    concepts: [
+      'FHE.allow() - Granting decryption permission',
+      'FHE.allowThis() - Contract permissions',
+      'Permission sharing between addresses',
+      'Transfer operations with encrypted balances',
+      'Anti-patterns and common mistakes',
+    ],
+  },
+  {
+    name: 'blind-auction',
+    title: 'Blind Auction',
+    description: 'Advanced sealed-bid auction using encrypted bids',
+    category: 'Advanced Examples',
+    contractPath: 'contracts/BlindAuction.sol',
+    testPath: 'test/BlindAuction.ts',
+    concepts: [
+      'Sealed-bid auction pattern',
+      'Encrypted comparisons (FHE.gt, FHE.select)',
+      'Time-based auction phases',
+      'Async decryption callbacks',
+      'Winner revelation pattern',
+    ],
+  },
+  {
     name: 'innovation-evaluation',
     title: 'Anonymous Innovation Evaluation',
     description: 'Privacy-preserving innovation evaluation system with encrypted multi-dimensional scoring',
@@ -283,16 +343,29 @@ npm run deploy:contracts
 }
 
 function generateSummary(configs: ExampleConfig[]): string {
+  // Group configs by category
+  const byCategory: Record<string, ExampleConfig[]> = {};
+  configs.forEach(config => {
+    if (!byCategory[config.category]) {
+      byCategory[config.category] = [];
+    }
+    byCategory[config.category].push(config);
+  });
+
+  let categorySection = '';
+  Object.keys(byCategory).sort().forEach(category => {
+    categorySection += `\n## ${category}\n\n`;
+    byCategory[category].forEach(config => {
+      categorySection += `* [${config.title}](${config.name}.md)\n`;
+    });
+  });
+
   const summary = `# Summary
 
 ## Introduction
 
 * [Overview](README.md)
-
-## Advanced Examples
-
-${configs.map(config => `* [${config.title}](${config.name}.md)`).join('\n')}
-
+${categorySection}
 ## Resources
 
 * [FHEVM Documentation](https://docs.zama.ai/fhevm)

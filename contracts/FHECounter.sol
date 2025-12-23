@@ -1,46 +1,72 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.24;
 
-import {FHE, euint32, externalEuint32} from "@fhevm/solidity/lib/FHE.sol";
-import {ZamaEthereumConfig} from "@fhevm/solidity/config/ZamaConfig.sol";
+import {FHE, euint32, inEuint32} from "@fhevm/solidity/lib/FHE.sol";
+import {SepoliaConfig} from "@fhevm/solidity/config/ZamaConfig.sol";
 
-/// @title A simple FHE counter contract
-/// @author fhevm-hardhat-template
-/// @notice A very basic example contract showing how to work with encrypted data using FHEVM.
-contract FHECounter is ZamaEthereumConfig {
+/**
+ * @title FHECounter
+ * @notice A simple counter demonstrating basic FHEVM operations
+ * @dev This example showcases:
+ *   - Encrypted state variables (euint32)
+ *   - Homomorphic arithmetic (add, sub)
+ *   - Proper permission management (FHE.allowThis, FHE.allow)
+ *   - Input encryption with proofs
+ */
+contract FHECounter is SepoliaConfig {
     euint32 private _count;
+    address public owner;
 
-    /// @notice Returns the current count
-    /// @return The current encrypted count
+    event Incremented(address indexed user);
+    event Decremented(address indexed user);
+
+    constructor() {
+        owner = msg.sender;
+        _count = FHE.asEuint32(0);
+        FHE.allowThis(_count);
+    }
+
+    /**
+     * @notice Returns the encrypted counter value
+     * @return The encrypted count that can be decrypted by authorized addresses
+     */
     function getCount() external view returns (euint32) {
         return _count;
     }
 
-    /// @notice Increments the counter by a specified encrypted value.
-    /// @param inputEuint32 the encrypted input value
-    /// @param inputProof the input proof
-    /// @dev This example omits overflow/underflow checks for simplicity and readability.
-    /// In a production contract, proper range checks should be implemented.
-    function increment(externalEuint32 inputEuint32, bytes calldata inputProof) external {
-        euint32 encryptedEuint32 = FHE.fromExternal(inputEuint32, inputProof);
+    /**
+     * @notice Increments counter by an encrypted value
+     * @param inputEuint32 Encrypted input value (handle)
+     * @param inputProof Proof validating the encrypted input
+     * @dev Demonstrates:
+     *   1. Converting external encrypted input: FHE.asEuint32()
+     *   2. Homomorphic addition: FHE.add()
+     *   3. Permission management: FHE.allowThis() + FHE.allow()
+     */
+    function increment(inEuint32 inputEuint32, bytes calldata inputProof) external {
+        euint32 value = FHE.asEuint32(inputEuint32, inputProof);
+        _count = FHE.add(_count, value);
 
-        _count = FHE.add(_count, encryptedEuint32);
+        // CRITICAL: Always grant both permissions
+        FHE.allowThis(_count);        // Contract permission
+        FHE.allow(_count, msg.sender); // User permission
 
-        FHE.allowThis(_count);
-        FHE.allow(_count, msg.sender);
+        emit Incremented(msg.sender);
     }
 
-    /// @notice Decrements the counter by a specified encrypted value.
-    /// @param inputEuint32 the encrypted input value
-    /// @param inputProof the input proof
-    /// @dev This example omits overflow/underflow checks for simplicity and readability.
-    /// In a production contract, proper range checks should be implemented.
-    function decrement(externalEuint32 inputEuint32, bytes calldata inputProof) external {
-        euint32 encryptedEuint32 = FHE.fromExternal(inputEuint32, inputProof);
-
-        _count = FHE.sub(_count, encryptedEuint32);
+    /**
+     * @notice Decrements counter by an encrypted value
+     * @param inputEuint32 Encrypted input value
+     * @param inputProof Proof validating the encrypted input
+     * @dev Note: Underflow checks omitted for simplicity
+     */
+    function decrement(inEuint32 inputEuint32, bytes calldata inputProof) external {
+        euint32 value = FHE.asEuint32(inputEuint32, inputProof);
+        _count = FHE.sub(_count, value);
 
         FHE.allowThis(_count);
         FHE.allow(_count, msg.sender);
+
+        emit Decremented(msg.sender);
     }
 }

@@ -49,16 +49,34 @@ interface ExampleConfig {
 
 // Map of example names to their contract and test paths
 const EXAMPLES_MAP: Record<string, ExampleConfig> = {
+  'fhe-counter': {
+    contract: 'contracts/FHECounter.sol',
+    test: 'test/FHECounter.ts',
+    description: 'Simple FHE counter demonstrating basic encrypted arithmetic and permission management',
+    category: 'basic',
+  },
+  'fhe-arithmetic': {
+    contract: 'contracts/FHEArithmetic.sol',
+    test: 'test/FHEArithmetic.ts',
+    description: 'Arithmetic operations on encrypted values (add, sub, mul, min, max)',
+    category: 'basic',
+  },
+  'access-control': {
+    contract: 'contracts/AccessControlExample.sol',
+    test: 'test/AccessControlExample.ts',
+    description: 'Access control patterns with FHE.allow and FHE.allowThis permission management',
+    category: 'intermediate',
+  },
+  'blind-auction': {
+    contract: 'contracts/BlindAuction.sol',
+    test: 'test/BlindAuction.ts',
+    description: 'Advanced sealed-bid auction using encrypted bids and comparison operations',
+    category: 'advanced',
+  },
   'innovation-evaluation': {
     contract: 'contracts/AnonymousInnovationEvaluation.sol',
     test: 'test/AnonymousInnovationEvaluation.ts',
-    description: 'Privacy-preserving innovation evaluation system with encrypted scoring',
-    category: 'advanced',
-  },
-  'anonymous-evaluation': {
-    contract: 'contracts/AnonymousInnovationEvaluation.sol',
-    test: 'test/AnonymousInnovationEvaluation.ts',
-    description: 'Advanced example demonstrating multi-dimensional encrypted evaluation with ranking',
+    description: 'Privacy-preserving innovation evaluation system with multi-dimensional encrypted scoring',
     category: 'advanced',
   },
 };

@@ -22,9 +22,49 @@ This submission provides a **complete, standalone FHEVM example repository** tha
 
 ## 📦 What's Included
 
-### 1. Complete FHEVM Smart Contract
+### Complete FHEVM Example Suite
 
-**File**: `contracts/AnonymousInnovationEvaluation.sol`
+This repository includes **5 comprehensive examples** organized by complexity level:
+
+#### **Basic Examples** - Foundation Concepts
+
+**1. FHE Counter** (`contracts/FHECounter.sol`)
+- Simple encrypted counter with increment/decrement
+- Basic permission management patterns
+- Demonstrates `FHE.allowThis()` and `FHE.allow()`
+- Perfect for getting started with FHEVM
+
+**2. FHE Arithmetic** (`contracts/FHEArithmetic.sol`)
+- All basic operations on encrypted values
+- Addition, subtraction, multiplication
+- Min/max operations
+- Type conversions between encrypted types
+
+#### **Intermediate Examples** - Core Patterns
+
+**3. Access Control** (`contracts/AccessControlExample.sol`)
+- Comprehensive permission management
+- Granting decryption permissions
+- Sharing encrypted data between addresses
+- Anti-pattern examples showing common mistakes
+
+#### **Advanced Examples** - Real-World Applications
+
+**4. Blind Auction** (`contracts/BlindAuction.sol`)
+- Sealed-bid auction with encrypted bids
+- Comparison operations on encrypted values
+- Time-based auction phases
+- Winner revelation via async decryption
+
+**5. Innovation Evaluation System** (`contracts/AnonymousInnovationEvaluation.sol`)
+- Multi-dimensional encrypted evaluation
+- Homomorphic score aggregation
+- Ranking calculation on encrypted data
+- Real-world privacy-preserving use case
+
+### 1. Complete FHEVM Smart Contracts
+
+**Primary Example**: `contracts/AnonymousInnovationEvaluation.sol`
 
 A production-ready Solidity contract demonstrating advanced FHEVM patterns:
 

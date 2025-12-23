@@ -6,7 +6,17 @@
 
 ## Advanced Examples
 
+* [Blind Auction](blind-auction.md)
 * [Anonymous Innovation Evaluation](innovation-evaluation.md)
+
+## Basic Examples
+
+* [FHE Counter](fhe-counter.md)
+* [FHE Arithmetic Operations](fhe-arithmetic.md)
+
+## Intermediate Examples
+
+* [Access Control Patterns](access-control.md)
 
 ## Resources
 

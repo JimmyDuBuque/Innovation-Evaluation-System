@@ -30,7 +30,7 @@ This pattern can be applied to:
 The contract demonstrates privacy-preserving evaluation with multiple encrypted dimensions:
 
 ```solidity
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity ^0.8.24;
 
 import { FHE, euint8, euint32, ebool } from "@fhevm/solidity/lib/FHE.sol";
